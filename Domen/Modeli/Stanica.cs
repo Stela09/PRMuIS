@@ -1,8 +1,7 @@
-﻿using Domen.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Domen.Models
+namespace Domen.Modeli
 {
     [Serializable]
     public class Stanica

@@ -1,7 +1,7 @@
-﻿using Domen.Enums;
-using System;
+﻿using System;
+using Domen.Enumeracije;
 
-namespace Domen.Models
+namespace Domen.Modeli
 {
     [Serializable]
     public class Alarm

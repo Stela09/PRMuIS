@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4BCE07A8-8091-4385-879C-56BBB21C168C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>CentralniServer</RootNamespace>
-    <AssemblyName>CentralniServer</AssemblyName>
+    <ProjectGuid>{C9DD9EB1-BE99-4436-8DB8-29461050CC08}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Domen</RootNamespace>
+    <AssemblyName>Domen</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,25 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="NetworkHelper.cs" />
+    <Compile Include="Enumeracije\TipAlarma.cs" />
+    <Compile Include="Enumeracije\TipMerenja.cs" />
+    <Compile Include="Modeli\Alarm.cs" />
+    <Compile Include="Modeli\Koordinate.cs" />
+    <Compile Include="Modeli\Merenje.cs" />
+    <Compile Include="Modeli\Stanica.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Domen\Domen.csproj">
-      <Project>{c9dd9eb1-be99-4436-8db8-29461050cc08}</Project>
-      <Name>Domen</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MerniUredjaji\MerniUredjaji.csproj">
-      <Project>{a58a416f-bc22-4fba-beae-05dbe1aade3d}</Project>
-      <Name>MerniUredjaji</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MeteoroloskeStanice\MeteoroloskeStanice.csproj">
-      <Project>{8b0ce331-7b9d-492a-bcae-543a5e04e24e}</Project>
-      <Name>MeteoroloskeStanice</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
