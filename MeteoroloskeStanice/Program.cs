@@ -46,21 +46,24 @@ namespace MeteoroloskeStanice
                 // TCP veza sa serverom
                 tcpVeza = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 tcpVeza.Connect(new IPEndPoint(IPAddress.Parse(IP_SERVERA), PORT_SERVERA));
+                Console.WriteLine("Povezano na server.");
 
                 // UDP listener za mjerne uređaje
                 udpListener = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 udpListener.Bind(new IPEndPoint(IPAddress.Any, udpPort));
+                Console.WriteLine($"UDP listener pokrenut na portu {udpPort}.");
 
                 // Preuzimanje osnovnih podataka stanice sa servera
                 mojaStanica = NetworkHelper.ReceiveMessage<Stanica>(tcpVeza);
+                Console.WriteLine($"Preuzeti podaci stanice: {mojaStanica.Naziv}");
 
                 Console.WriteLine($"Stanica '{mojaStanica.Naziv}' inicijalizovana.");
                 Console.WriteLine($"Čekanje podataka uređaja na UDP portu {udpPort}...");
             }
             catch (Exception e)
             {
+                
                 Console.WriteLine($"Greška prilikom inicijalizacije: {e.Message}");
-                Environment.Exit(1);
             }
         }
 

@@ -114,9 +114,17 @@ namespace Server
                     {
                         if (_mapaStanica.ContainsKey(stanicaSocket))
                         {
+                            // Dodaj nova merenja u postojeću listu
+                            _mapaStanica[stanicaSocket].Merenja.AddRange(azuriranaStanica.Merenja);
+                            _mapaStanica[stanicaSocket].AktivniAlarmi.AddRange(azuriranaStanica.AktivniAlarmi);
+                        }
+                        else
+                        {
+                            // Nova stanica
                             _mapaStanica[stanicaSocket] = azuriranaStanica;
                         }
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -158,16 +166,15 @@ namespace Server
                             Console.WriteLine($"{m.IdUredjaja}\t{m.Tip}\t{m.Vrednost:F1}\t{m.Jedinica}\t{m.Vreme:HH:mm:ss}");
                         }
 
-                        if (stanica.AktivniAlarmi.Any())
+                        var poslednjiAlarm = stanica.AktivniAlarmi.LastOrDefault();
+                        if (poslednjiAlarm != null)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("\n!!! AKTIVNI ALARMI !!!");
-                            foreach (var alarm in stanica.AktivniAlarmi)
-                            {
-                                Console.WriteLine($"[{alarm.Vreme:HH:mm:ss}] {alarm.Uzrok} ({alarm.Vrednost})");
-                            }
+                            Console.WriteLine("\n!!! POSLEDNJI AKTIVNI ALARM !!!");
+                            Console.WriteLine($"[{poslednjiAlarm.Vreme:HH:mm:ss}] {poslednjiAlarm.Uzrok} ({poslednjiAlarm.Vrednost})");
                             Console.ResetColor();
                         }
+
                         Console.WriteLine();
                     }
                 }
