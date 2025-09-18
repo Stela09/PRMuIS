@@ -10,7 +10,7 @@ namespace Server
 {
     internal class CentralServerApp
     {
-        private const int LISTEN_PORT = 3000;
+        private const int LISTEN_PORT = 10000;
         private static Socket _listenerSocket;
         private static List<Socket> _povezaneStanice = new List<Socket>();
         private static Dictionary<Socket, Stanica> _mapaStanica = new Dictionary<Socket, Stanica>();

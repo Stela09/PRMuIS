@@ -12,7 +12,7 @@ namespace MeteoroloskeStanice
 {
     internal class Program
     {
-        private const int PORT_SERVERA = 3000;
+        private const int PORT_SERVERA = 10000;
         private const string IP_SERVERA = "127.0.0.1";
 
         private static Socket tcpVeza;

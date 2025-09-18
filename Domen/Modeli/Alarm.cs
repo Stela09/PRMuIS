@@ -10,5 +10,6 @@ namespace Domen.Modeli
         public double Vrednost { get; set; }
         public string Uzrok { get; set; } = string.Empty;
         public DateTime Vreme { get; set; }
+
     }
 }
