@@ -116,9 +116,20 @@ namespace MeteoroloskeStanice
                             }
                             Console.WriteLine($"Primljen alarm: {alarm.Uzrok}");
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            Console.WriteLine($"Greška pri obradi UDP podataka: {ex.Message}");
+                            // Ako nije ni alarm, možda je poruka tipa "NOVI_UREDJAJ"
+                            string poruka = System.Text.Encoding.UTF8.GetString(data);
+                            var delovi = poruka.Split(';');
+                            if (delovi[0] == "NOVI_UREDJAJ")
+                            {
+                                int idUredjaja = int.Parse(delovi[1]);
+                                string tip = delovi[2];
+
+                                // Dodavanje uređaja u stanici
+                                mojaStanica.DodajUredjaj();
+                                Console.WriteLine($"Novi uređaj ({tip}) dodat. Ukupno uređaja: {mojaStanica.BrojUredjaja}");
+                            }
                         }
                     }
                 }
@@ -128,6 +139,7 @@ namespace MeteoroloskeStanice
                 }
             }
         }
+
 
         private static void SlanjePodatakaServeru()
         {

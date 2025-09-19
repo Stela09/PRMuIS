@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading;
 
 namespace MerniUredjaj
@@ -76,6 +77,10 @@ namespace MerniUredjaj
                 );
 
                 Console.WriteLine($"Uređaj {_idUredjaja} je pokrenut. Šalje merenja tipa {_tipMerenja} na {_krajnaStanica}");
+
+                var poruka = $"NOVI_UREDJAJ;{_idUredjaja};{_tipMerenja}";
+                byte[] podaci = Encoding.UTF8.GetBytes(poruka);
+                _udpSoket.SendTo(podaci, _krajnaStanica);
 
                 while (true)
                 {

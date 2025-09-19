@@ -12,5 +12,10 @@ namespace Domen.Modeli
         public int BrojUredjaja { get; set; }
         public List<Merenje> Merenja { get; set; } = new List<Merenje>();
         public List<Alarm> AktivniAlarmi { get; set; } = new List<Alarm>();
+
+        public void DodajUredjaj()
+        {
+            BrojUredjaja++;
+        }
     }
 }

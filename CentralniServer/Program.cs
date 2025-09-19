@@ -62,8 +62,7 @@ namespace Server
                                 42.0 + _rand.NextDouble() * 3.0,
                                 19.0 + _rand.NextDouble() * 5.0
                             ),
-                            BrojStanovnika = _rand.Next(50000, 2000000),
-                            BrojUredjaja = _rand.Next(3, 10)
+                            BrojStanovnika = _rand.Next(50000, 2000000)
                         };
 
                         _povezaneStanice.Add(s);
@@ -93,6 +92,8 @@ namespace Server
                         {
                             // Koristimo NetworkHelper da primimo kompletan objekat Stanica
                             Stanica azuriranaStanica = NetworkHelper.ReceiveMessage<Stanica>(s);
+
+                            _mapaStanica[s].BrojUredjaja = azuriranaStanica.BrojUredjaja;
 
                             // Dodaj nova merenja i alarme u postojeću stanicu
                             const int MAX_MERENJA = 3;
@@ -135,8 +136,9 @@ namespace Server
             {
                 Console.WriteLine($"=== {stanica.Naziv} ===");
                 Console.WriteLine($"Lokacija: {stanica.Koordinate.Sirina:F2}°N, {stanica.Koordinate.Duzina:F2}°E");
-                Console.WriteLine($"Broj stanovnika: {stanica.BrojStanovnika:N0}");
+                Console.WriteLine($"Broj stanovnika: {stanica.BrojStanovnika}");
                 Console.WriteLine($"Broj uređaja: {stanica.BrojUredjaja}");
+
                 Console.WriteLine("\nNedavna merenja:");
                 Console.WriteLine("Uređaj\tTip\tVrednost\tJedinica\tVreme");
 
