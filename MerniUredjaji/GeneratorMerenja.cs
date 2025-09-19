@@ -19,6 +19,7 @@ namespace MerniUredjaj
             public string Poruka { get; set; } = "";
         }
 
+        // konfiguracija alarma za različite tipove merenja
         private static readonly Dictionary<TipMerenja, GranicaAlarma> konfiguracijaAlarma =
             new Dictionary<TipMerenja, GranicaAlarma>
             {
@@ -31,6 +32,7 @@ namespace MerniUredjaj
                 { TipMerenja.Oblacnost, new GranicaAlarma { Gornja = 95, TipGornja = TipAlarma.VisokaOblacnost, Jedinica="%", Poruka="oblačnost" } },
             };
 
+        // generiše nasumično merenje na osnovu tipa merenja i id uređaja
         public static Merenje KreirajMerenje(TipMerenja tip, string idUredjaja)
         {
             int vrednost;
@@ -78,6 +80,7 @@ namespace MerniUredjaj
             };
         }
 
+        // proverava da li merenje aktivira neki alarm i vraća listu aktiviranih alarma
         public static List<Alarm> ProveriAlarme(Merenje merenje)
         {
             var alarmi = new List<Alarm>();

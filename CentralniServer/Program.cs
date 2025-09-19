@@ -22,7 +22,7 @@ namespace Server
             InicijalizujServer();
             PokreniServer();
         }
-
+        // inicijalizacija servera
         private static void InicijalizujServer()
         {
             try
@@ -40,14 +40,14 @@ namespace Server
                 Environment.Exit(1);
             }
         }
-
+        //pokretanje servera i prihvatanje konekcija od stanica i primanje podataka od njih
         private static void PokreniServer()
         {
             string[] gradovi = { "Beograd", "Novi Sad", "Niš", "Kragujevac", "Subotica" };
 
             while (true)
             {
-                // Prihvatanje novih stanica
+                // prihvatanje novih stanica
                 if (_listenerSocket.Poll(500 * 1000, SelectMode.SelectRead))
                 {
                     try
@@ -68,14 +68,14 @@ namespace Server
                         _povezaneStanice.Add(s);
                         _mapaStanica[s] = stanica;
 
-                        // Pošalji početne podatke stanice preko NetworkHelper
+                        // pošalji početne podatke stanice preko NetworkHelper
                         NetworkHelper.SendMessage(s, stanica);
 
                         Console.WriteLine($"Nova stanica povezana: {stanica.Naziv}");
                     }
                     catch (SocketException)
                     {
-                        // Nema novih konekcija
+                        // nema novih konekcija
                     }
                     catch (Exception ex)
                     {
@@ -83,25 +83,25 @@ namespace Server
                     }
                 }
 
-                // Primanje podataka sa stanica
+                // primanje podataka sa stanica
                 foreach (var s in _povezaneStanice.ToList())
                 {
                     try
                     {
                         if (s.Poll(500 * 1000, SelectMode.SelectRead))
                         {
-                            // Koristimo NetworkHelper da primimo kompletan objekat Stanica
+                            // koristimo NetworkHelper da primimo kompletan objekat Stanica
                             Stanica azuriranaStanica = NetworkHelper.ReceiveMessage<Stanica>(s);
 
                             _mapaStanica[s].BrojUredjaja = azuriranaStanica.BrojUredjaja;
 
-                            // Dodaj nova merenja i alarme u postojeću stanicu
+                            // dodaj nova merenja i alarme u postojeću stanicu
                             const int MAX_MERENJA = 3;
 
                             var merenja = _mapaStanica[s].Merenja;
                             merenja.AddRange(azuriranaStanica.Merenja);
 
-                            // Ograniči listu na poslednjih MAX_MERENJA
+                            // da se ispisuju samo zadnja 3 merenja zbog preglednosti
                             if (merenja.Count > MAX_MERENJA)
                             {
                                 int removeCount = merenja.Count - MAX_MERENJA;
@@ -119,13 +119,14 @@ namespace Server
                     }
                 }
 
-                // Prikaz statusa mreže
+                // prikaz statusa mreže
                 PrikaziStatusMreze();
 
-                Thread.Sleep(500); // osvežavanje svakog sekunda
+                Thread.Sleep(500); // osvežavanje svake pola sekunde kad povecam ili smanjim ponasa se neprevidljivo
             }
         }
 
+        // prikaz statusa mreže u konzoli sa detaljima o svakoj stanici
         private static void PrikaziStatusMreze()
         {
             Console.Clear();

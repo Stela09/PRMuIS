@@ -3,6 +3,7 @@ using Domen.Enumeracije;
 
 namespace Domen.Modeli
 {
+    
     [Serializable]
     public class Alarm
     {

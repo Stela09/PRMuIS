@@ -28,6 +28,7 @@ namespace MeteoroloskeStanice
             PokreniStanicaLoop();
         }
 
+        // unosi i validira port stanice
         private static int UnesiPortStanice()
         {
             Console.WriteLine("Unesite port stanice (15000-15002):");
@@ -39,6 +40,7 @@ namespace MeteoroloskeStanice
             return port;
         }
 
+        // pokreće TCP i UDP veze, preuzima podatke stanice
         private static void PokreniInicijalizaciju(int udpPort)
         {
             try
@@ -67,6 +69,7 @@ namespace MeteoroloskeStanice
             }
         }
 
+        // glavna petlja stanice koja pokreće osluškivanje i slanje podataka
         private static void PokreniStanicaLoop()
         {
             var threadUDP = new Thread(OsluskjujUredjaje);
@@ -82,6 +85,7 @@ namespace MeteoroloskeStanice
             udpListener?.Close();
         }
 
+        // osluškuje UDP poruke od mernih uređaja i obrađuje ih
         private static void OsluskjujUredjaje()
         {
             var buffer = new byte[1024];
@@ -94,7 +98,7 @@ namespace MeteoroloskeStanice
                     int bytes = udpListener.ReceiveFrom(buffer, ref udaljeniEP);
                     var data = buffer.Take(bytes).ToArray();
 
-                    // Pokušaj prvo kao merenje
+                    // pokuša prvo kao merenje
                     try
                     {
                         var merenje = NetworkHelper.Deserialize<Merenje>(data);
@@ -106,7 +110,7 @@ namespace MeteoroloskeStanice
                     }
                     catch
                     {
-                        // Ako nije merenje, pokušaj kao alarm
+                        // ako nije merenje, pokušaj kao alarm
                         try
                         {
                             var alarm = NetworkHelper.Deserialize<Alarm>(data);
@@ -118,7 +122,7 @@ namespace MeteoroloskeStanice
                         }
                         catch
                         {
-                            // Ako nije ni alarm, možda je poruka tipa "NOVI_UREDJAJ"
+                            // ako nije ni alarm, možda je poruka tipa "NOVI_UREDJAJ"
                             string poruka = System.Text.Encoding.UTF8.GetString(data);
                             var delovi = poruka.Split(';');
                             if (delovi[0] == "NOVI_UREDJAJ")
@@ -126,7 +130,6 @@ namespace MeteoroloskeStanice
                                 int idUredjaja = int.Parse(delovi[1]);
                                 string tip = delovi[2];
 
-                                // Dodavanje uređaja u stanici
                                 mojaStanica.DodajUredjaj();
                                 Console.WriteLine($"Novi uređaj ({tip}) dodat. Ukupno uređaja: {mojaStanica.BrojUredjaja}");
                             }
@@ -140,7 +143,7 @@ namespace MeteoroloskeStanice
             }
         }
 
-
+        // šalje prikupljene podatke serveru na svakih sekund
         private static void SlanjePodatakaServeru()
         {
             while (true)

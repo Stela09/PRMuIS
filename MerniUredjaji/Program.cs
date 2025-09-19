@@ -24,6 +24,7 @@ namespace MerniUredjaj
             PokreniUredjaj();
         }
 
+        // prikuplja id uredjaja, tip merenja i stanicu na koju se povezuje
         private static void KonfigurisanjeUredjaja()
         {
             Console.WriteLine("Unesite ID uređaja (npr. TEMP_001):");
@@ -66,6 +67,7 @@ namespace MerniUredjaj
             Console.WriteLine($"Uređaj {_idUredjaja} će se povezati na stanicu na portu {portStanice} i meriti {_tipMerenja}");
         }
 
+        //glavna logika uredjaja 
         private static void PokreniUredjaj()
         {
             try
@@ -84,10 +86,11 @@ namespace MerniUredjaj
 
                 while (true)
                 {
+                    //generisanje i slanje merenja
                     var merenje = GeneratorMerenja.KreirajMerenje(_tipMerenja, _idUredjaja);
                     PosaljiMerenje(merenje);
 
-                    // Provera abnormalnih vrednosti i slanje alarma
+                    // provera i slanje alarma ako je potrebno
                     ProveriISaljiAlarme(merenje);
 
                     Thread.Sleep(2000);
@@ -100,6 +103,7 @@ namespace MerniUredjaj
             }
         }
 
+        // serijalizacija i slanje merenja
         private static void PosaljiMerenje(Merenje merenje)
         {
             try
@@ -121,6 +125,7 @@ namespace MerniUredjaj
             }
         }
 
+        // provera da li je merenje van granica i slanje alarma ako jeste
         private static void ProveriISaljiAlarme(Merenje merenje)
         {
             var alarmi = GeneratorMerenja.ProveriAlarme(merenje);
