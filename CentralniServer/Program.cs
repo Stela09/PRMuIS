@@ -22,7 +22,6 @@ namespace Server
             InicijalizujServer();
             PokreniServer();
         }
-        // inicijalizacija servera
         private static void InicijalizujServer()
         {
             try
