@@ -50,7 +50,7 @@ namespace MeteoroloskeStanice
                 tcpVeza.Connect(new IPEndPoint(IPAddress.Parse(IP_SERVERA), PORT_SERVERA));
                 Console.WriteLine("Povezano na server.");
 
-                // UDP listener za mjerne uređaje
+                // UDP listener za merne uređaje
                 udpListener = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 udpListener.Bind(new IPEndPoint(IPAddress.Any, udpPort));
                 Console.WriteLine($"UDP listener pokrenut na portu {udpPort}.");
@@ -127,7 +127,6 @@ namespace MeteoroloskeStanice
                             var delovi = poruka.Split(';');
                             if (delovi[0] == "NOVI_UREDJAJ")
                             {
-                                int idUredjaja = int.Parse(delovi[1]);
                                 string tip = delovi[2];
 
                                 mojaStanica.DodajUredjaj();

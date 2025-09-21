@@ -27,7 +27,7 @@ namespace MerniUredjaj
         // prikuplja id uredjaja, tip merenja i stanicu na koju se povezuje
         private static void KonfigurisanjeUredjaja()
         {
-            Console.WriteLine("Unesite ID uređaja (npr. TEMP_001):");
+            Console.WriteLine("Unesite ID uređaja:");
             _idUredjaja = Console.ReadLine() ?? "TEMP_001";
 
             Console.WriteLine("Dostupne stanice:");
